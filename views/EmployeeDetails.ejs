@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/employee.css">
+    <title>Employee Details</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Employee Details</h1>
+        <form action="/" method="GET">
+            <button>SignOut</button>
+        </form>
+        <div class="employee-details">
+            <p><strong>Employee ID:</strong>
+                <%= employee.EID %>
+            </p>
+            <p><strong>Username:</strong>
+                <%= employee.username %>
+            </p>
+            <p><strong>Full Name:</strong>
+                <%= employee.FullName %>
+            </p>
+            <p><strong>Designation:</strong>
+                <%= employee.Designation %>
+            </p>
+            <p><strong>Is Admin:</strong>
+                <span class="<%= employee.isAdmin ? 'is-admin' : 'not-admin' %>">
+                    <%= employee.isAdmin ? 'Yes' : 'No' %>
+                </span>
+            </p>
+            <p><strong>Your Review:</strong>
+                <%= employee.Review %>
+            </p>
+            <p><strong>Reviewed By:</strong>
+                <%= employee.ReviewedBy %>
+            </p>
+        </div>
+        <h3>Pending Reviews List</h3>
+        <ol>
+            <% for(let i=0;i<list.length;i++){
+                if(list[i].FullName != employee.FullName && employee.FullName == list[i].ReviewedBy && !list[i].isReviewSubmitted) {%>
+                <li>
+                    <form action="/submitReviewe" method="POST">
+                        <h3 name="FullNameEmployee">
+                            <%= list[i].FullName %>
+                        </h3>
+                        <input type="hidden" name="employeeFullName" value="<%= list[i].FullName %>">
+                        <input type="hidden" name="loggedinusername" value="<%= employee.username %>">
+                        <input type="hidden" name="loggedinpassword" value="<%= employee.password %>">
+                        <p>Please Comment on Performance of this Employee</p>
+                        <input type="text" name="Review" placeholder="Please input some review" />
+                        <button type="Submit">Submit</button>
+                    </form>
+                </li>
+                <% }} %>
+        </ol>
+    </div>
+</body>
+
+</html>

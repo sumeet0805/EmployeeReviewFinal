@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/employee.css">
+    <title>Employee Details</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Details</h1>
+        <form action="/" method="GET">
+            <button>SignOut</button>
+        </form>
+        <div class="employee-details">
+            <p><strong>Employee ID:</strong> <%= employee.EID %></p>
+            <p><strong>Username:</strong> <%= employee.username %></p>
+            <p><strong>Full Name:</strong> <%= employee.FullName %></p>
+            <p><strong>Designation:</strong> <%= employee.Designation %></p>
+            <p><strong>Is Admin:</strong> 
+                <span class="<%= employee.isAdmin ? 'is-admin' : 'not-admin' %>">
+                    <%= employee.isAdmin ? 'Yes' : 'No' %>
+                </span>
+            </p>
+        </div>
+        <h3>Employees with No Reviews</h3>
+        <ol>
+            <% for(let j=0;j<list.length;j++) { 
+                if(!list[j].isReviewerAssigned && !list[j].isAdmin) { %>
+            <li>
+                <form action="/submitReviewerName" method="POST"> 
+                    <h3 name="FullNameEmployee"><%= list[j].FullName %></h3>
+                    <input type="hidden" name="employeeFullName" value="<%= list[j].FullName %>">
+                    <input type="hidden" name="employeeUsername" value="<%= employee.username %>">
+                    <p>Select Name of Employee to assign as reviewer</p>
+                    <select  id="reviewerFullName2" name="reviewerFullName2">
+                        <option value="" disabled selected>Select employee</option>
+                        <% for (let i = 0; i < list.length; i++) {
+                            if(i!=j){ %>
+                            <option name="FullNameReviewer2" value="<%= list[i] %>"><%= list[i].FullName %></option>
+                        <% } } %>
+                    </select>
+                    <button type="Submit">Submit</button>
+                </form>
+            </li>
+            <%}else{%>
+                <li>
+                    <h3><%= list[j].FullName %></h3>
+                    <p> Reviewer Already Assigned</p>
+                </li>
+            <%}}%>
+        </ol>
+    </div>
+</body>
+</html>
